@@ -1,6 +1,14 @@
 from dotenv import load_dotenv
 import os
 
+if not os.path.exists(".env"):
+    current_dir = os.getcwd()
+    todo_file_path = os.path.join(current_dir, "to-do.txt")
+    escaped_path = todo_file_path.replace("\\", "\\\\")
+    with open(".env", "w") as env_file:
+        env_file.write(f'TEXT_FILE_PATH="{escaped_path}"')
+    print(".env file created with TEXT_FILE_PATH")
+
 load_dotenv()
 file_path_todofile = os.getenv("TEXT_FILE_PATH")
 
@@ -49,4 +57,11 @@ if file_path_todofile:
         print("not a good input!")
     todofile.close()
 else:
+    with open("to-do.txt", "w") as file:
+        file.write("")
+    current_dir = os.getcwd()
+    todo_file_path = os.path.join(current_dir, "to-do.txt")
+    with open(".env", "w") as env_file:
+        env_file.write(f'TEXT_FILE_PATH="{todo_file_path}"')
+    print("to-do.txt made in the directory")
     print("TEXT_FILE_PATH is not set in the .env file")
